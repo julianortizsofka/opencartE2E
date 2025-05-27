@@ -1,0 +1,94 @@
+
+buildscript {
+    ext.serenityCoreVersion = '3.6.22'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:$serenityCoreVersion")
+        classpath "net.serenity-bdd:serenity-single-page-report:$serenityCoreVersion"
+    }
+}
+plugins {
+    id "net.serenity-bdd.serenity-gradle-plugin" version "${serenityCoreVersion}"
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+}
+
+defaultTasks 'clean','test','aggregate'
+apply plugin: 'java'
+
+group = 'us.abstracta.opencart'
+version =  '1.0-SNAPSHOT'
+
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+java {
+    sourceSets.main.java.srcDirs = ['src/main/java']
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    slf4jVersion = '2.0.17'
+    serenityCoreVersion = '3.6.23'
+    serenityCucumberVersion = '3.6.23'
+    junitVersion = '5.8.2'
+    assertJVersion = '3.22.0'
+    logbackVersion = '1.4.11'
+    lombokVersion = '1.18.22'
+    log4jVersion = '2.17.1'
+}
+
+
+
+dependencies {
+    implementation "ch.qos.logback:logback-classic:${logbackVersion}"
+
+    testImplementation ("net.serenity-bdd:serenity-core:${serenityCoreVersion}"){
+        exclude group: 'org.apache.groovy', module: 'groovy'
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+    }
+    implementation "org.slf4j:slf4j-simple:${slf4jVersion}"
+
+    implementation "net.serenity-bdd:serenity-junit:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-cucumber:${serenityCucumberVersion}"
+    implementation ("net.serenity-bdd:serenity-screenplay:${serenityCoreVersion}"){
+        exclude group: 'org.slf4j', module: 'slf4j-simple' // <-- O aquí, si viene de Screenplay
+    }
+
+    implementation "net.serenity-bdd:serenity-screenplay-webdriver:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityCoreVersion}"
+
+    implementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    implementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    implementation "org.assertj:assertj-core:${assertJVersion}"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+}
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+}
+
+
+
+serenity {
+    testRoot = "us.abstracta.opencart.runners"
+    requirementsBaseDir = "src/test/resources"
+
+
+}
+
+gradle.startParameter.continueOnFailure = true
+
+test.finalizedBy(aggregate)
