@@ -14,10 +14,10 @@ Analista de automatización: Julian Alejandro Ortiz Medina - <julian.ortiz@sofka
 # Integración de casos prueba de la automatización en Azure
 
 ## Introducción
-Se presenta un prueba de automatización de pruebas de E2E, por medio de Serenity BDD, a la aplicación opencart, con el patron Screenplay y usando Gradle.
+Se presenta una prueba de automatización de pruebas de E2E, por medio de Serenity BDD, a la aplicación opencart, con el patron Screenplay y usando Gradle.
 
 ## Enfoque de integración
-La automatización se centra en un flujo E2E, enfocandose en el flujo:
+La automatización se centra en un flujo E2E, enfocándose en el flujo:
 1. Abrir la pagina.
 2. Agregar dos productos fijos, si se tuviera más tiempo se puede automatizar para que sean dos productos aleatorios.
 3. Ingresar y comprobar que estoy en el carrito de compras
@@ -44,7 +44,7 @@ La automatización se centra en un flujo E2E, enfocandose en el flujo:
 #### ./gradlew clean test
 
 ### Comando para ejecutar por feature
-#### ./gradlew test --tests "com.saucedemo.runners.PruebaE2ERunner"
+#### ./gradlew test --tests "E2E Test"
 
 
 ### Comando para generar reporte despues que haya terminado un test (Por consola arrojara la ruta .html )
